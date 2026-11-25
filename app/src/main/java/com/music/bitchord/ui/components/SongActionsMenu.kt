@@ -239,35 +239,6 @@ fun SongActionsMenu(
                 }
             }
         }
-
-        // Leads the list whenever it's available: which recording is playing
-        // is the one question that has to be answered before any of the rows
-        // below mean anything — there is no point rating, queueing or
-        // downloading the wrong version of a song.
-        //
-        // The two are never both present — one is offered for a track playing
-        // a substituted copy, the other for a track held on YouTube's own —
-        // and between them they are the whole of the choice, which is why they
-        // sit in the same group.
-        if (onRollbackToOriginal != null || onUpgradeQuality != null || onToggleAudioVersion != null) {
-            if (startsGroup()) IosMenuSeparator()
-            (onRollbackToOriginal ?: onUpgradeQuality)?.let {
-                ActionRow(
-                    icon = if (onRollbackToOriginal != null) SfIcons.Revert else SfIcons.Upgrade,
-                    label = stringResource(
-                        if (onRollbackToOriginal != null) {
-                            R.string.revert_to_original
-                        } else {
-                            R.string.upgrade_quality
-                        },
-                    ),
-                    accent = palette.accent,
-                    enabled = onRollbackToOriginal != null || !upgradeQualityInProgress,
-                    onClick = it,
-                )
-            }
-        }
-
         // The account's rows, or for a local file or download the offline
         // player's own pair: a heart that files the track under this device's
         // Liked playlist, and the device's playlists. [likeStatus] is that
