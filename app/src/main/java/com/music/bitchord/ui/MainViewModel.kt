@@ -684,8 +684,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     }
 
 
-    /** Set once per launch if GitHub has a release newer than this build. */
-    val updateAvailable: StateFlow<AppUpdateChecker.UpdateInfo?> = AppUpdateChecker.available
+    //AppUpdateChecker.available
+    val updateAvailable: StateFlow<AppUpdateChecker.UpdateInfo?> = kotlinx.coroutines.flow.MutableStateFlow<AppUpdateChecker.UpdateInfo?>(null)
 
     // ---- Ratings, library and playlists -------------------------------------
 
