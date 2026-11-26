@@ -1,0 +1,23 @@
+name: Export signing key
+
+on: workflow_dispatch
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Restore key from cache
+        id: keycache
+        uses: actions/cache/restore@v4
+        with:
+          path: bitchord-release.jks
+          key: bitchord-keystore-v1
+          fail-on-cache-miss: true
+      - run: base64 -w 0 bitchord-release.jks > keystore.b64.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: signing-key
+          path: |
+            bitchord-release.jks
+            keystore.b64.txt
+          retention-days: 1
