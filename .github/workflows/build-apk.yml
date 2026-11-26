@@ -15,20 +15,8 @@ jobs:
           distribution: temurin
           cache: gradle
 
-      - name: Restore signing key from cache
-        id: keycache
-        uses: actions/cache@v4
-        with:
-          path: bitchord-release.jks
-          key: bitchord-keystore-v1
-
-      - name: Create signing key (first run only)
-        if: steps.keycache.outputs.cache-hit != 'true'
-        run: |
-          keytool -genkeypair -v -keystore bitchord-release.jks \
-            -alias bitchord -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass bitchordpass -keypass bitchordpass \
-            -dname "CN=BitChord"
+      - name: Load signing key from secret
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > bitchord-release.jks
 
       - name: Write local.properties and keystore.properties
         run: |
