@@ -17,7 +17,12 @@ jobs:
 
       - name: Load signing key from secret
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > bitchord-release.jks
-
+        
+      - name: Check keystore
+        run: |
+          ls -l bitchord-release.jks
+          keytool -list -keystore bitchord-release.jks -storepass bitchordpass
+          
       - name: Write local.properties and keystore.properties
         run: |
           {
